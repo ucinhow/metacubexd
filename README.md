@@ -85,15 +85,15 @@ git -C /etc/mihomo/ui pull -r
 
 ```shell
 # Basic usage
-docker run -d --restart always -p 80:80 --name metacubexd ghcr.io/metacubex/metacubexd
+docker run -d --restart always -p 80:80 --name metacubexd ghcr.io/ucinhow/metacubexd
 
 # With custom default backend URL
 docker run -d --restart always -p 80:80 --name metacubexd \
   -e DEFAULT_BACKEND_URL=http://192.168.1.1:9090 \
-  ghcr.io/metacubex/metacubexd
+  ghcr.io/ucinhow/metacubexd
 
 # Update
-docker pull ghcr.io/metacubex/metacubexd && docker restart metacubexd
+docker pull ghcr.io/ucinhow/metacubexd && docker restart metacubexd
 ```
 
 <details>
@@ -103,7 +103,7 @@ docker pull ghcr.io/metacubex/metacubexd && docker restart metacubexd
 services:
   metacubexd:
     container_name: metacubexd
-    image: ghcr.io/metacubex/metacubexd
+    image: ghcr.io/ucinhow/metacubexd
     restart: always
     ports:
       - '80:80'

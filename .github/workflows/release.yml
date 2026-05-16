@@ -116,8 +116,8 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            ghcr.io/metacubex/metacubexd:latest
-            ghcr.io/metacubex/metacubexd:${{ needs.release-please.outputs.tag_name }}
+            ghcr.io/ucinhow/metacubexd:latest
+            ghcr.io/ucinhow/metacubexd:${{ needs.release-please.outputs.tag_name }}
 
   update-screenshots:
     needs: release-please
