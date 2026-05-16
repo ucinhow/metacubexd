@@ -145,6 +145,9 @@ export const useConfigStore = defineStore('config', () => {
   // Overview settings
   const showNetworkTopology = useLocalStorage('showNetworkTopology', false)
 
+  // Proxy file path for remote config
+  const proxyFilePath = useLocalStorage('proxyFilePath', '')
+
   // Computed
   const isLatencyTestByHttps = computed(() =>
     urlForLatencyTest.value.startsWith('https'),
@@ -233,6 +236,8 @@ export const useConfigStore = defineStore('config', () => {
     clientSourceIPTags,
     // Overview
     showNetworkTopology,
+    // Proxy file path
+    proxyFilePath,
     // Computed
     isLatencyTestByHttps,
     latencyQualityMap,

@@ -79,7 +79,10 @@ const remoteConfigURL = ref('')
 async function onFetchRemoteConfig() {
   if (!remoteConfigURL.value) return
   try {
-    await configActions.fetchRemoteConfigAPI(remoteConfigURL.value)
+    await configActions.fetchRemoteConfigAPI(
+      remoteConfigURL.value,
+      configStore.proxyFilePath,
+    )
   } catch {
     /* error already logged in API */
   }
@@ -858,6 +861,21 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
           </div>
 
           <div class="flex flex-col gap-3 p-4">
+            <!-- Proxy File Path -->
+            <div class="flex flex-col gap-2 sm:flex-row">
+              <input
+                v-model="configStore.proxyFilePath"
+                type="text"
+                class="input-bordered input h-10 min-h-10 flex-1 appearance-none px-3"
+                :placeholder="t('proxyFilePathPlaceholder')"
+              />
+              <span
+                class="flex h-10 min-h-10 items-center px-1 text-sm whitespace-nowrap text-base-content/60 sm:w-auto"
+              >
+                {{ t('proxyFilePath') }}
+              </span>
+            </div>
+
             <!-- Remote Config URL -->
             <form
               class="flex flex-col gap-2 sm:flex-row"

@@ -234,6 +234,8 @@
   "fetchRemoteConfig": "拉取远程配置",
   "remoteConfigURL": "远程配置地址",
   "remoteConfigURLPlaceholder": "输入配置文件 URL",
+  "proxyFilePath": "代理文件路径",
+  "proxyFilePathPlaceholder": "留空则使用默认路径",
   "shortcuts": {
     "title": "键盘快捷键",
     "category": {
