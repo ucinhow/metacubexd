@@ -10,6 +10,9 @@ const entrypoint = readFileSync(
 describe('docker-entrypoint', () => {
   it('does not mutate Nitro public assets at container startup', () => {
     expect(entrypoint).toContain('NUXT_PUBLIC_DEFAULT_BACKEND_URL')
+    expect(entrypoint).toContain('NUXT_CONFIG_FILE_PATH')
+    expect(entrypoint).toContain('NUXT_PUBLIC_CONFIG_FILE_PATH')
+    expect(entrypoint).toContain('CONFIG_FILE_PATH')
     expect(entrypoint).not.toContain('/app/.output/public/config.js')
   })
 })

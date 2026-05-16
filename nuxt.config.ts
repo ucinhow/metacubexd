@@ -18,13 +18,17 @@ export default defineNuxtConfig({
   },
 
   // Runtime config
-  // Public keys can be overridden at runtime via NUXT_PUBLIC_* env vars
+  // Runtime keys can be overridden at runtime via NUXT_* env vars
   // e.g. NUXT_PUBLIC_DEFAULT_BACKEND_URL=http://host:port
+  // e.g. NUXT_CONFIG_FILE_PATH=/root/.config/mihomo/config.yaml
+  // e.g. NUXT_PUBLIC_CONFIG_FILE_PATH=/root/.config/mihomo/config.yaml
   runtimeConfig: {
+    configFilePath: '',
     public: {
       appVersion: pkg.version,
       mockMode: process.env.MOCK_MODE === 'true',
       defaultBackendURL: '',
+      configFilePath: '',
     },
   },
 

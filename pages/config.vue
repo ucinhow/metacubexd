@@ -21,6 +21,9 @@ const configActions = useConfigActions()
 const runtimeConfig = useRuntimeConfig()
 
 const frontendVersion = `v${runtimeConfig.public.appVersion || '0.0.0'}`
+const configFilePath = computed(() =>
+  String(runtimeConfig.public.configFilePath || ''),
+)
 
 // TanStack Query
 const {
@@ -79,10 +82,7 @@ const remoteConfigURL = ref('')
 async function onFetchRemoteConfig() {
   if (!remoteConfigURL.value) return
   try {
-    await configActions.fetchRemoteConfigAPI(
-      remoteConfigURL.value,
-      configStore.proxyFilePath,
-    )
+    await configActions.fetchRemoteConfigAPI(remoteConfigURL.value)
   } catch {
     /* error already logged in API */
   }
@@ -861,18 +861,16 @@ const activeSection = ref<'core' | 'xd' | 'tools'>('core')
           </div>
 
           <div class="flex flex-col gap-3 p-4">
-            <!-- Proxy File Path -->
-            <div class="flex flex-col gap-2 sm:flex-row">
-              <input
-                v-model="configStore.proxyFilePath"
-                type="text"
-                class="input-bordered input h-10 min-h-10 flex-1 appearance-none px-3"
-                :placeholder="t('proxyFilePathPlaceholder')"
-              />
-              <span
-                class="flex h-10 min-h-10 items-center px-1 text-sm whitespace-nowrap text-base-content/60 sm:w-auto"
-              >
-                {{ t('proxyFilePath') }}
+            <!-- Config File Path -->
+            <div
+              class="flex flex-col gap-1 rounded-lg bg-base-content/5 px-3 py-2"
+            >
+              <span class="text-sm font-medium">{{ t('configFilePath') }}</span>
+              <span class="break-all font-mono text-xs opacity-70">
+                {{ configFilePath || t('configFilePathDefault') }}
+              </span>
+              <span class="text-xs opacity-50">
+                {{ t('configFilePathDesc') }}
               </span>
             </div>
 

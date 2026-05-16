@@ -234,8 +234,9 @@
   "fetchRemoteConfig": "Fetch Remote Config",
   "remoteConfigURL": "Remote Config URL",
   "remoteConfigURLPlaceholder": "Enter config file URL",
-  "proxyFilePath": "Proxy File Path",
-  "proxyFilePathPlaceholder": "Leave empty to use default path",
+  "configFilePath": "Config File Path",
+  "configFilePathDefault": "Not set, using backend default path",
+  "configFilePathDesc": "Set by the server environment variable CONFIG_FILE_PATH. It must be a full file path writable by the MetaCubeXD server.",
   "shortcuts": {
     "title": "Keyboard Shortcuts",
     "category": {

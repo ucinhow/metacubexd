@@ -92,6 +92,12 @@ docker run -d --restart always -p 80:80 --name metacubexd \
   -e DEFAULT_BACKEND_URL=http://192.168.1.1:9090 \
   ghcr.io/ucinhow/metacubexd
 
+# With remote config target path
+docker run -d --restart always -p 80:80 --name metacubexd \
+  -e DEFAULT_BACKEND_URL=http://192.168.1.1:9090 \
+  -e CONFIG_FILE_PATH=/root/.config/mihomo/config.yaml \
+  ghcr.io/ucinhow/metacubexd
+
 # Update
 docker pull ghcr.io/ucinhow/metacubexd && docker restart metacubexd
 ```
@@ -109,6 +115,7 @@ services:
       - '80:80'
     # environment:
     #   - DEFAULT_BACKEND_URL=http://192.168.1.1:9090
+    #   - CONFIG_FILE_PATH=/root/.config/mihomo/config.yaml
 
   # Optional: mihomo instance
   mihomo:
@@ -130,6 +137,10 @@ docker compose up -d
 # Update
 docker compose pull && docker compose up -d
 ```
+
+`CONFIG_FILE_PATH` is optional. When set, remote config downloads are fetched by
+the MetaCubeXD server and saved to that full server-side file path. Leave it
+unset to disable server-side remote config saving.
 
 </details>
 

@@ -313,18 +313,14 @@ export function useConfigActions() {
   }
 
   const fetchingRemoteConfig = ref(false)
-  const fetchRemoteConfigAPI = async (url: string, path: string = '') => {
+  const fetchRemoteConfigAPI = async (url: string) => {
     const request = useRequest()
     fetchingRemoteConfig.value = true
     try {
-      // Fetch config content from remote URL
-      const response = await ky.get(url)
-      const payload = await response.text()
-
-      // Update config with fetched payload
+      await ky.post('/api/remote-config', { json: { url } }).json()
       await request.put('configs', {
         searchParams: { force: true },
-        json: { path, payload },
+        json: { path: '', payload: '' },
       })
     } catch (error) {
       console.error('Failed to fetch remote config:', error)

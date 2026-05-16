@@ -7,6 +7,8 @@ services:
     restart: always
     ports:
       - '80:80'
+    environment:
+      - CONFIG_FILE_PATH=/root/.config/mihomo/config.yaml
 
   # optional
   meta:
@@ -20,4 +22,4 @@ services:
       - ALL
     volumes:
       - /dev/net/tun:/dev/net/tun
-      - ./config.yaml:/root/.config/mihomo
+      - ./config.yaml:/root/.config/mihomo/config.yaml
