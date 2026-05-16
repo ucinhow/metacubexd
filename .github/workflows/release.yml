@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Image tag (e.g. v1.0.0)'
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -74,7 +80,7 @@ jobs:
 
   release-image:
     needs: release-please
-    if: ${{ needs.release-please.outputs.release_created }}
+    if: ${{ needs.release-please.outputs.release_created || github.event_name == 'workflow_dispatch' }}
 
     permissions:
       contents: read
@@ -106,6 +112,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.CI_TOKEN }}
 
+      - name: Generate short SHA
+        id: sha
+        run: echo "short=$(echo ${{ github.sha }} | cut -c1-7)" >> "$GITHUB_OUTPUT"
+
       - uses: docker/build-push-action@v7
         with:
           context: .
@@ -117,7 +127,8 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ghcr.io/ucinhow/metacubexd:latest
-            ghcr.io/ucinhow/metacubexd:${{ needs.release-please.outputs.tag_name }}
+            ghcr.io/ucinhow/metacubexd:sha-${{ steps.sha.outputs.short }}
+            ghcr.io/ucinhow/metacubexd:${{ inputs.tag || needs.release-please.outputs.tag_name }}
 
   update-screenshots:
     needs: release-please
