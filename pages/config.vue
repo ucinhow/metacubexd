@@ -82,7 +82,18 @@ const remoteConfigURL = ref('')
 async function onFetchRemoteConfig() {
   if (!remoteConfigURL.value) return
   try {
-    await configActions.fetchRemoteConfigAPI(remoteConfigURL.value)
+    const currentConfig = backendConfig.value
+
+    await configActions.fetchRemoteConfigAPI(remoteConfigURL.value, {
+      allowLan:
+        typeof currentConfig?.['allow-lan'] === 'boolean'
+          ? currentConfig['allow-lan']
+          : undefined,
+      externalController:
+        typeof currentConfig?.['external-controller'] === 'string'
+          ? currentConfig['external-controller']
+          : undefined,
+    })
   } catch {
     /* error already logged in API */
   }

@@ -287,6 +287,11 @@ export function toggleRuleDisabledAPI(index: number, disabled: boolean) {
   })
 }
 
+interface RemoteConfigOverrides {
+  allowLan?: boolean
+  externalController?: string
+}
+
 // Config Actions with loading states
 export function useConfigActions() {
   const reloadingConfigFile = ref(false)
@@ -313,11 +318,14 @@ export function useConfigActions() {
   }
 
   const fetchingRemoteConfig = ref(false)
-  const fetchRemoteConfigAPI = async (url: string) => {
+  const fetchRemoteConfigAPI = async (
+    url: string,
+    overrides: RemoteConfigOverrides = {},
+  ) => {
     const request = useRequest()
     fetchingRemoteConfig.value = true
     try {
-      await ky.post('/api/remote-config', { json: { url } }).json()
+      await ky.post('/api/remote-config', { json: { url, overrides } }).json()
       await request.put('configs', {
         searchParams: { force: true },
         json: { path: '', payload: '' },

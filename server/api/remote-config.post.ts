@@ -1,7 +1,12 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import { dirname } from 'node:path'
+import { parseDocument } from 'yaml'
 
 interface RemoteConfigBody {
+  overrides?: {
+    allowLan?: boolean
+    externalController?: string
+  }
   url?: string
 }
 
@@ -17,6 +22,31 @@ function parseRemoteConfigURL(url: string) {
   } catch {
     return null
   }
+}
+
+function applyConfigOverrides(payload: string, overrides: RemoteConfigBody['overrides']) {
+  if (!overrides) {
+    return payload
+  }
+
+  const document = parseDocument(payload)
+
+  if (document.errors.length > 0) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Remote config is not valid YAML',
+    })
+  }
+
+  if (typeof overrides.allowLan === 'boolean') {
+    document.set('allow-lan', overrides.allowLan)
+  }
+
+  if (overrides.externalController) {
+    document.set('external-controller', overrides.externalController)
+  }
+
+  return document.toString()
 }
 
 export default defineEventHandler(async (event) => {
@@ -51,7 +81,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const payload = await response.text()
+  const payload = applyConfigOverrides(await response.text(), body.overrides)
 
   await mkdir(dirname(configFilePath), { recursive: true })
   await writeFile(configFilePath, payload)

@@ -152,6 +152,7 @@ export interface Config {
   'vmess-config': string
   authentication: null
   'allow-lan': boolean
+  'external-controller'?: string
   'bind-address': string
   'inbound-tfo': boolean
   UnifiedDelay: boolean
